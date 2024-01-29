@@ -5,7 +5,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { configService } from './config/config.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ItemModule } from './item/item.module';
+import { ItemModule } from './module/item/item.module';
+import { PersonModule } from './module/person/person.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth.guard';
 
 @Module({
   imports: [
@@ -14,8 +17,14 @@ import { ItemModule } from './item/item.module';
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     ItemModule,
+    PersonModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    }],
 })
-export class AppModule {}
+export class AppModule {
+}

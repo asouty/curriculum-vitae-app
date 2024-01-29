@@ -39,6 +39,10 @@ export class ConfigService {
       ssl: this.isProduction(),
     };
   }
+
+  public getJwtSecret() {
+    return this.getValue('JWT_SECRET');
+  }
 }
 
 let configService = new ConfigService(process.env).ensureValues([

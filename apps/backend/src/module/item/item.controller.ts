@@ -2,12 +2,12 @@
 
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ItemService } from './item.service';
-import { Item } from '../model/item.entity';
 import { ApiCreatedResponse } from '@nestjs/swagger';
+import { Item } from '../../model/item.entity';
 
 @Controller('item')
 export class ItemController {
-  constructor(private service: ItemService) {}
+  constructor(private readonly service: ItemService) {}
 
   @Get()
   @ApiCreatedResponse({ type: Item, isArray: true })
