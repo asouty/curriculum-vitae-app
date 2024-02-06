@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAuthRequest } from '../hook/Request.tsx';
 import { Item } from 'backend/dist/model/item.entity';
 
 export default function ItemComponent(props: {isLoggedIn: boolean}) {
   const [items, setItems] = useState<Item[]>([]);
-  React.useEffect(() => {
-      getAuthRequest('/api/item').then(value => value.data).then((remoteItems: Item[]) => {
+  useEffect(() => {
+      getAuthRequest('/api/item').then(value => value.data)
+        .then((remoteItems: Item[]) => {
         setItems(remoteItems);
       }).catch(reason => {
         console.log(reason);
