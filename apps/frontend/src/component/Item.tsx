@@ -2,16 +2,11 @@ import { useState, useEffect } from 'react';
 import { getAuthRequest } from '../hook/Request.tsx';
 import { Item } from 'backend/dist/model/item.entity';
 
-export default function ItemComponent(props: {isLoggedIn: boolean}) {
+export default function ItemComponent(props: { isLoggedIn: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
   useEffect(() => {
-      getAuthRequest('/api/item').then(value => value.data)
-        .then((remoteItems: Item[]) => {
-        setItems(remoteItems);
-      }).catch(reason => {
-        console.log(reason);
-        setItems([]);
-      });
+    const fetchData = async () => setItems(await getAuthRequest<Item[]>('/api/item'));
+    fetchData().catch(() => setItems([]));
   }, [props.isLoggedIn]);
 
   return (
@@ -34,6 +29,4 @@ export default function ItemComponent(props: {isLoggedIn: boolean}) {
       </table>
     </>
   );
-
-
 }
